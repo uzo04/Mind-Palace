@@ -1,0 +1,17 @@
+PORT=5000
+DB_NAME=braingrowdb
+DB_USER=root
+DB_PASSWORD=your_password
+DB_HOST=localhost
+DB_PORT=3306
+DB_SSL=false
+JWT_SECRET=your_secret
+DB_SYNC_MODE=safe
+CORS_ORIGIN=http://localhost:3000,http://localhost:5173
+PUBLIC_APP_URL=http://localhost:5000
+UPLOAD_PROVIDER=local
+CLOUD_NAME=
+CLOUD_API_KEY=
+CLOUD_API_SECRET=
+CLOUDINARY_FOLDER=mind-palace
+ADMIN_EMAIL=

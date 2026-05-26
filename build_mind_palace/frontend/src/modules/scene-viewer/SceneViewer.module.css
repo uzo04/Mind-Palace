@@ -1,0 +1,348 @@
+
+
+.root {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: var(--surface-2);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+
+.scene {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  cursor: default;
+  user-select: none;
+  min-height: 480px;
+  background: #120d1f;
+  touch-action: manipulation;
+}
+.overviewScene { cursor: pointer; }
+
+.frame {
+  position: absolute;
+  inset: 0;
+  will-change: transform;
+  overflow: hidden;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}
+
+
+.placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  background: var(--surface);
+  color: var(--text-3);
+  font-size: 14px;
+}
+
+
+.vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 40%, rgba(18, 8, 32, 0.32) 100%);
+  pointer-events: none;
+}
+
+
+.overviewVeil {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(5, 6, 18, 0.58), transparent 48%),
+    linear-gradient(to top, rgba(5, 6, 18, 0.72), transparent 62%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+
+.scanLines {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(rgba(248, 236, 255, 0.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(248, 236, 255, 0.040) 1px, transparent 1px);
+  background-size: 34px 34px;
+  mix-blend-mode: screen;
+  opacity: 0.38;
+  z-index: 2;
+}
+
+
+.overviewLabel {
+  position: absolute;
+  left: 34px;
+  bottom: 32px;
+  max-width: min(520px, calc(100% - 68px));
+  color: #fff;
+  pointer-events: none;
+  z-index: 4;
+}
+
+.overviewLabel p {
+  margin: 8px 0 0;
+  color: rgba(248, 236, 255, 0.72);
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+
+.hotspots {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+}
+
+
+.routeOverlay {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.routeOverlay line {
+  fill: none;
+  stroke: rgba(198, 184, 255, 0.72);
+  stroke-width: 0.48;
+  stroke-linecap: round;
+  stroke-dasharray: 2 2;
+  
+  filter: drop-shadow(0 0 5px rgba(155, 140, 246, 0.80))
+          drop-shadow(0 0 14px rgba(155, 140, 246, 0.40));
+}
+
+.routeOverlay marker path {
+  fill: rgba(210, 196, 255, 0.88);
+}
+
+
+.hotspot {
+  position: absolute;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  max-width: 230px;
+  padding: 9px 12px 9px 9px;
+  border-radius: 999px;
+  color: #f0ebff;
+  background: rgba(8, 6, 24, 0.76);
+  border: 1px solid rgba(198, 184, 255, 0.38);
+  backdrop-filter: blur(16px);
+  box-shadow:
+    0 0 0 1px rgba(155, 140, 246, 0.12),
+    0 12px 32px rgba(5, 6, 18, 0.36);
+  transform: translate(-50%, -50%);
+  text-align: left;
+  z-index: 2;
+  transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+}
+
+.hotspot:hover {
+  border-color: rgba(155, 140, 246, 0.72);
+  background: rgba(18, 10, 40, 0.88);
+  box-shadow:
+    0 0 0 1px rgba(155, 140, 246, 0.30),
+    0 0 24px rgba(155, 140, 246, 0.28),
+    0 12px 32px rgba(5, 6, 18, 0.44);
+}
+
+
+.hotspot::before {
+  content: '';
+  position: absolute;
+  inset: -11px;
+  border-radius: 999px;
+  border: 1px solid rgba(155, 140, 246, 0.48);
+  animation: pulseHotspot 2s ease-out infinite;
+}
+
+.hotspot span {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #7c3aed, #a855f7);
+  box-shadow: 0 0 12px rgba(139, 92, 246, 0.55);
+  color: #fff;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 800;
+  flex: 0 0 auto;
+}
+
+.hotspot strong {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+@keyframes pulseHotspot {
+  0%   { opacity: 0.85; scale: 0.90; }
+  100% { opacity: 0;    scale: 1.22; }
+}
+
+
+.label {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 56px 32px 32px;
+  background: linear-gradient(to top, rgba(5, 3, 14, 0.92) 0%, transparent 100%);
+  pointer-events: none;
+  text-align: center;
+}
+
+
+.backToMap {
+  position: absolute;
+  top: 18px;
+  left: 18px;
+  z-index: 6;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border-radius: 999px;
+  background: rgba(10, 8, 26, 0.84);
+  border: 1px solid rgba(155, 140, 246, 0.28);
+  color: rgba(198, 184, 255, 0.90);
+  font-size: 13px;
+  font-weight: 800;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.36);
+  backdrop-filter: blur(14px);
+  transition: border-color 0.18s, background 0.18s, color 0.18s, box-shadow 0.18s;
+}
+
+.backToMap:hover {
+  border-color: rgba(155, 140, 246, 0.56);
+  background: rgba(18, 10, 40, 0.92);
+  color: #c6b8ff;
+  box-shadow: 0 0 18px rgba(155, 140, 246, 0.24), 0 8px 24px rgba(0, 0, 0, 0.40);
+}
+
+
+.mapArrow {
+  position: absolute;
+  top: 50%;
+  z-index: 6;
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: rgba(10, 8, 26, 0.82);
+  border: 1px solid rgba(155, 140, 246, 0.28);
+  color: rgba(198, 184, 255, 0.88);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.40);
+  backdrop-filter: blur(14px);
+  transform: translateY(-50%);
+  transition: transform 0.18s, opacity 0.18s, background 0.18s,
+              border-color 0.18s, box-shadow 0.18s, color 0.18s;
+}
+
+.mapArrow:hover:not(:disabled) {
+  background: rgba(18, 10, 40, 0.92);
+  color: #c6b8ff;
+  border-color: rgba(155, 140, 246, 0.56);
+  box-shadow: 0 0 20px rgba(155, 140, 246, 0.26), 0 12px 28px rgba(0, 0, 0, 0.44);
+  transform: translateY(calc(-50% - 1px));
+}
+
+.mapArrow:disabled {
+  opacity: 0.24;
+  cursor: not-allowed;
+}
+
+.mapArrowLeft  { left: 18px; }
+.mapArrowRight { right: 18px; }
+
+
+.locationIndex {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(155, 140, 246, 0.90);
+  opacity: 0.85;
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "zero" 1;
+}
+
+
+.locationTitle {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 700;
+  color: #fff;
+  margin-top: 4px;
+  max-width: min(720px, 84%);
+  text-shadow:
+    0 2px 20px rgba(0, 0, 0, 0.72),
+    0 0 40px rgba(0, 0, 0, 0.40);
+}
+
+
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  min-height: 400px;
+  gap: 14px;
+  color: var(--text-3);
+  padding: 48px;
+  text-align: center;
+}
+.empty p     { font-size: 17px; font-weight: 600; color: var(--text-2); margin: 0; }
+.empty span  { font-size: 13px; color: var(--text-3); }
+
+
+@media (max-width: 720px) {
+  .locationTitle { font-size: 22px; }
+  .overviewLabel {
+    left: 20px;
+    right: 20px;
+    bottom: 24px;
+    max-width: none;
+  }
+  .overviewLabel p { font-size: 13px; }
+  .hotspot {
+    max-width: 48px;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    justify-content: center;
+  }
+  .hotspot span  { width: 30px; height: 30px; }
+  .hotspot strong { display: none; }
+  .mapArrow { width: 46px; height: 46px; }
+}
