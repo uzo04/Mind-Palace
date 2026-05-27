@@ -21,6 +21,16 @@ const app = express();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const uploadsDir = path.resolve(__dirname, "../uploads");
+const apiPrefixes = [
+  "/auth",
+  "/spaces",
+  "/locations",
+  "/content",
+  "/progress",
+  "/stock-images",
+  "/admin",
+  "/sync",
+];
 const configuredOrigins = (process.env.CORS_ORIGIN?.split(",") ?? ["http://localhost:5173"])
   .map((origin) => origin.trim())
   .filter(Boolean);
@@ -45,7 +55,7 @@ for (const origin of configuredOrigins) {
 app.use(helmet({ crossOriginResourcePolicy: false }));
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true }));
-app.use(cors({
+const apiCors = cors({
   origin(origin, callback) {
     if (!origin || allowedOrigins.has(origin)) {
       callback(null, true);
@@ -54,7 +64,9 @@ app.use(cors({
     callback(new Error(`Origin not allowed by CORS: ${origin}`));
   },
   credentials: true,
-}));
+});
+
+app.use(apiPrefixes, apiCors);
 
 app.get("/health", (req, res) => {
   res.json({ status: "ok", app: "Mind Palace API" });
@@ -93,15 +105,8 @@ app.use("/sync", SyncRoutes);
 
 const distPath = path.resolve(__dirname, "../../frontend/dist");
 const distAssetsPath = path.join(distPath, "assets");
-const apiPrefixes = [
-  "/auth",
-  "/spaces",
-  "/locations",
-  "/content",
-  "/progress",
-  "/stock-images",
-  "/admin",
-  "/sync",
+const nonSpaPrefixes = [
+  ...apiPrefixes,
   "/uploads",
   "/health",
 ];
@@ -129,7 +134,7 @@ app.use(express.static(distPath, {
 }));
 
 app.get(/.*/, (req, res, next) => {
-  const isApiRequest = apiPrefixes.some((prefix) => req.path === prefix || req.path.startsWith(`${prefix}/`));
+  const isApiRequest = nonSpaPrefixes.some((prefix) => req.path === prefix || req.path.startsWith(`${prefix}/`));
   const isAssetRequest = path.extname(req.path) !== "";
 
   if (isApiRequest || isAssetRequest) {
