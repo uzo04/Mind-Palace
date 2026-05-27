@@ -1,4 +1,5 @@
 import { col, fn, Op, where as sequelizeWhere } from "sequelize";
+import bcrypt from "bcrypt";
 
 import { sequelize, User } from "../models/index.js";
 import { ApiError } from "../utils/ApiError.js";
@@ -24,6 +25,10 @@ class RoleService {
     return normalizeEmail(process.env.ADMIN_EMAIL);
   }
 
+  getConfiguredAdminPassword() {
+    return String(process.env.ADMIN_PASSWORD || "");
+  }
+
   isConfiguredAdminEmail(email) {
     const adminEmail = this.getConfiguredAdminEmail();
     return Boolean(adminEmail) && normalizeEmail(email) === adminEmail;
@@ -31,14 +36,33 @@ class RoleService {
 
   async promoteConfiguredAdmin({ transaction } = {}) {
     const adminEmail = this.getConfiguredAdminEmail();
+    const adminPassword = this.getConfiguredAdminPassword();
     if (!adminEmail) return null;
 
-    const configuredUser = await User.findOne({
+    let configuredUser = await User.findOne({
       where: emailWhere(adminEmail),
       transaction,
     });
 
+    if (!configuredUser && adminPassword) {
+      configuredUser = await User.create({
+        username: adminEmail.split("@")[0] || "admin",
+        email: adminEmail,
+        password: await bcrypt.hash(adminPassword, 10),
+        role: "admin",
+      }, { transaction });
+    }
+
     if (!configuredUser) return null;
+
+    if (adminPassword) {
+      const matches = await bcrypt.compare(adminPassword, configuredUser.password);
+      if (!matches) {
+        await configuredUser.update({
+          password: await bcrypt.hash(adminPassword, 10),
+        }, { transaction });
+      }
+    }
 
     await User.update(
       { role: "user" },
