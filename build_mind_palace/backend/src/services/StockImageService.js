@@ -16,7 +16,7 @@ const media = {
   madara: "https://upload.wikimedia.org/wikipedia/commons/1/18/JE%C5%B9DZIEC_Z_MADARY.JPG",
   babaVida: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Baba_Vida_Klearchos_1.jpg/3840px-Baba_Vida_Klearchos_1.jpg",
   bachkovo: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/Church_of_the_Dormition%2C_Bachkovo_Monastery_01.jpg/3840px-Church_of_the_Dormition%2C_Bachkovo_Monastery_01.jpg",
-  shipka: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/64/%D0%9F%D0%B0%D0%BC%D0%B5%D1%82%D0%BD%D0%B8%D0%BA%D1%8A%D1%82_%D0%BD%D0%B0_%D1%81%D0%B2%D0%BE%D0%B1%D0%BE%D0%B4%D0%B0%D1%82%D0%B0_%D0%BD%D0%B0_%D0%B2%D1%80%D1%8A%D1%85_%D0%A8%D0%B8%D0%BF%D0%BA%D0%B0_12.jpg/3840px-%D0%9F%D0%B0%D0%BC%D0%B5%D1%82%D0%BD%D0%B8%D0%BA%D1%8A%D1%82_%D0%BD%D0%B0_%D1%81%D0%B2%D0%BE%D0%B1%D0%BE%D0%B4%D0%B0%D1%82%D0%B0_%D0%BD%D0%B0_%D0%B2%D1%80%D1%8A%D1%85_%D0%A8%D0%B8%D0%BF%D0%BA%D0%B0_12.jpg",
+  shipka: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Shipka_Monument_23_August_2008.jpg/1280px-Shipka_Monument_23_August_2008.jpg",
   eiffel: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/Tour_Eiffel_Wikimedia_Commons.jpg/2560px-Tour_Eiffel_Wikimedia_Commons.jpg",
   sagradaFamilia: "https://upload.wikimedia.org/wikipedia/commons/7/78/SF_maig_2026.jpg",
   charlesBridge: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Prague_07-2016_view_from_Lesser_Town_Tower_of_Charles_Bridge_img3.jpg/3840px-Prague_07-2016_view_from_Lesser_Town_Tower_of_Charles_Bridge_img3.jpg",
