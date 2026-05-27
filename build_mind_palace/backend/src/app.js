@@ -60,7 +60,16 @@ app.get("/health", (req, res) => {
   res.json({ status: "ok", app: "Mind Palace API" });
 });
 
-app.use(globalLimiter);
+app.use([
+  "/auth",
+  "/spaces",
+  "/locations",
+  "/content",
+  "/progress",
+  "/stock-images",
+  "/admin",
+  "/sync",
+], globalLimiter);
 app.use("/uploads", express.static(uploadsDir, {
   fallthrough: false,
   immutable: true,
@@ -83,6 +92,7 @@ app.use("/admin", AdminRoutes);
 app.use("/sync", SyncRoutes);
 
 const distPath = path.resolve(__dirname, "../../frontend/dist");
+const distAssetsPath = path.join(distPath, "assets");
 const apiPrefixes = [
   "/auth",
   "/spaces",
@@ -96,16 +106,38 @@ const apiPrefixes = [
   "/health",
 ];
 
-app.use(express.static(distPath));
+app.use("/assets", express.static(distAssetsPath, {
+  fallthrough: false,
+  immutable: true,
+  maxAge: "365d",
+  setHeaders: (res) => {
+    res.setHeader("Cache-Control", "public, max-age=31536000, immutable");
+  },
+}));
+
+app.use(express.static(distPath, {
+  index: false,
+  fallthrough: true,
+  setHeaders: (res, filePath) => {
+    if (path.basename(filePath) === "index.html") {
+      res.setHeader("Cache-Control", "no-store");
+      return;
+    }
+
+    res.setHeader("Cache-Control", "public, max-age=3600");
+  },
+}));
 
 app.get(/.*/, (req, res, next) => {
   const isApiRequest = apiPrefixes.some((prefix) => req.path === prefix || req.path.startsWith(`${prefix}/`));
+  const isAssetRequest = path.extname(req.path) !== "";
 
-  if (isApiRequest) {
+  if (isApiRequest || isAssetRequest) {
     next();
     return;
   }
 
+  res.setHeader("Cache-Control", "no-store");
   res.sendFile(path.join(distPath, "index.html"));
 });
 
