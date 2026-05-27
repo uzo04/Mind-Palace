@@ -39,6 +39,7 @@ export default function StockTab({ onSelect }) {
   const [loading, setLoading] = useState(true);
   const [query, setQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
+  const [brokenUrls, setBrokenUrls] = useState(() => new Set());
 
   useEffect(() => {
     contentService.getStockImages()
@@ -77,6 +78,15 @@ export default function StockTab({ onSelect }) {
     return (!selectedCategory || img.displayCategory === selectedCategory)
       && (!normalizedQuery || searchable.includes(normalizedQuery));
   });
+
+  const markBroken = (url) => {
+    setBrokenUrls((current) => {
+      if (current.has(url)) return current;
+      const next = new Set(current);
+      next.add(url);
+      return next;
+    });
+  };
 
   if (loading) {
     return (
@@ -136,6 +146,7 @@ export default function StockTab({ onSelect }) {
         <div className={styles.grid}>
           {filtered.map((img, i) => {
             const url = img.url || img.imageUrl || img;
+            const isBroken = brokenUrls.has(url);
             return (
               <motion.div
                 key={img.id || url || i}
@@ -145,7 +156,18 @@ export default function StockTab({ onSelect }) {
                 transition={{ delay: i * 0.02 }}
                 onClick={() => onSelect(url)}
               >
-                <img src={url} alt={img.displayTitle} loading="lazy" />
+                {isBroken ? (
+                  <div className={styles.imageFallback} aria-hidden="true">
+                    <span>{img.displayTitle}</span>
+                  </div>
+                ) : (
+                  <img
+                    src={url}
+                    alt={img.displayTitle}
+                    loading="lazy"
+                    onError={() => markBroken(url)}
+                  />
+                )}
                 <span className={styles.gridCaption}>
                   <strong>{img.displayTitle}</strong>
                   <small>{img.displayCategory}</small>

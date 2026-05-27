@@ -2,7 +2,7 @@ import { StockImage } from "../models/index.js";
 import { Op } from "sequelize";
 
 const unsplashImage = (id) => `https://images.unsplash.com/${id}?auto=format&fit=crop&w=1200&q=80`;
-const unsplashDownload = (id) => `https://unsplash.com/photos/${id}/download?force=true&w=1200`;
+const unsplashDownload = (id) => unsplashImage(id);
 
 const media = {
   rila: unsplashDownload("hRofd-04Tl4"),
