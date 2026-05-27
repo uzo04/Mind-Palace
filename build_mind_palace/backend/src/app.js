@@ -55,16 +55,19 @@ for (const origin of configuredOrigins) {
 app.use(helmet({ crossOriginResourcePolicy: false }));
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true }));
-const apiCors = cors({
+const apiCors = (req, res, next) => cors({
   origin(origin, callback) {
-    if (!origin || allowedOrigins.has(origin)) {
+    const requestOrigin = `${req.protocol}://${req.get("host")}`;
+
+    if (!origin || allowedOrigins.has(origin) || origin === requestOrigin) {
       callback(null, true);
       return;
     }
+
     callback(new Error(`Origin not allowed by CORS: ${origin}`));
   },
   credentials: true,
-});
+})(req, res, next);
 
 app.use(apiPrefixes, apiCors);
 
