@@ -6,5 +6,6 @@ const router = Router();
 
 
 router.get("/", StockImageController.getAll);
+router.get("/:id/file", StockImageController.getFile);
 
 export default router;

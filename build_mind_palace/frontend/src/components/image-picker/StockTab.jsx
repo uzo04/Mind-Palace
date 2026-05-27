@@ -48,6 +48,10 @@ export default function StockTab({ onSelect }) {
       .finally(() => setLoading(false));
   }, []);
 
+  useEffect(() => {
+    setBrokenUrls(new Set());
+  }, [images]);
+
   const normalizedImages = useMemo(() => images.map((img) => ({
     ...img,
     displayTitle: imageTitle(img),
@@ -70,6 +74,7 @@ export default function StockTab({ onSelect }) {
     const normalizedQuery = query.trim().toLowerCase();
     const searchable = [
       img.url,
+      img.sourceUrl,
       img.imageUrl,
       img.displayTitle,
       img.displayCategory,
@@ -145,16 +150,17 @@ export default function StockTab({ onSelect }) {
       ) : (
         <div className={styles.grid}>
           {filtered.map((img, i) => {
-            const url = img.url || img.imageUrl || img;
-            const isBroken = brokenUrls.has(url);
+            const previewUrl = img.imageUrl || img.url || img;
+            const selectedUrl = img.url || img.imageUrl || img;
+            const isBroken = brokenUrls.has(previewUrl);
             return (
               <motion.div
-                key={img.id || url || i}
+                key={img.id || selectedUrl || i}
                 className={styles.gridItem}
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: i * 0.02 }}
-                onClick={() => onSelect(url)}
+                onClick={() => onSelect(selectedUrl)}
               >
                 {isBroken ? (
                   <div className={styles.imageFallback} aria-hidden="true">
@@ -162,10 +168,10 @@ export default function StockTab({ onSelect }) {
                   </div>
                 ) : (
                   <img
-                    src={url}
+                    src={previewUrl}
                     alt={img.displayTitle}
                     loading="lazy"
-                    onError={() => markBroken(url)}
+                    onError={() => markBroken(previewUrl)}
                   />
                 )}
                 <span className={styles.gridCaption}>

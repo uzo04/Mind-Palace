@@ -164,6 +164,11 @@ class StockImageService {
     await this.syncDefaults();
     return StockImage.findAll({ order: [["category", "ASC"], ["title", "ASC"], ["createdAt", "DESC"]] });
   }
+
+  async getById(id) {
+    await this.syncDefaults();
+    return StockImage.findByPk(id);
+  }
 }
 
 export default new StockImageService();
