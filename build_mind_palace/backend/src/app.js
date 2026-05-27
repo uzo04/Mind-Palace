@@ -57,7 +57,6 @@ app.use(helmet({
   contentSecurityPolicy: {
     directives: {
       ...helmet.contentSecurityPolicy.getDefaultDirectives(),
-      // Allow stock images, Cloudinary uploads, and local blob/data previews.
       "img-src": ["'self'", "data:", "blob:", "https:"],
     },
   },

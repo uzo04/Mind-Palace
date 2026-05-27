@@ -2,26 +2,25 @@ import { StockImage } from "../models/index.js";
 import { Op } from "sequelize";
 
 const unsplashImage = (id) => `https://images.unsplash.com/${id}?auto=format&fit=crop&w=1200&q=80`;
-const unsplashDownload = (id) => unsplashImage(id);
 
 const media = {
-  rila: unsplashDownload("hRofd-04Tl4"),
-  belogradchik: unsplashDownload("5Y1RQQ-ICzE"),
-  sevenRila: unsplashDownload("K7HvIvsPy8w"),
-  alexanderNevsky: unsplashDownload("Kxq47tC2Avg"),
-  tsarevets: unsplashDownload("-KbxinBqYwo"),
-  perperikon: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/Archaeological_complex_of_Perperikon_05.jpg/1280px-Archaeological_complex_of_Perperikon_05.jpg",
-  devetashka: unsplashDownload("tqHyay8rm3o"),
-  buzludzha: unsplashDownload("Hiz3TY3iaHI"),
-  plovdiv: unsplashDownload("9C8EKMtKCtA"),
-  madara: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Madara_Bulgaria.jpg/1280px-Madara_Bulgaria.jpg",
+  rila: unsplashImage("photo-1516483638261-f4dbaf036963"),
+  belogradchik: unsplashImage("photo-1518005020951-eccb494ad742"),
+  sevenRila: unsplashImage("photo-1500534314209-a25ddb2bd429"),
+  alexanderNevsky: unsplashImage("photo-1482192596544-9eb780fc7f66"),
+  tsarevets: unsplashImage("photo-1528127269322-539801943592"),
+  perperikon: unsplashImage("photo-1504609773096-104ff2c73ba4"),
+  devetashka: unsplashImage("photo-1521295121783-8a321d551ad2"),
+  buzludzha: unsplashImage("photo-1514565131-fce0801e5785"),
+  plovdiv: unsplashImage("photo-1483729558449-99ef09a8c325"),
+  madara: unsplashImage("photo-1476514525535-07fb3b4ae5f1"),
   babaVida: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Baba_Vida_Fortress.jpg/1280px-Baba_Vida_Fortress.jpg",
   bachkovo: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/06/BACHKOVO_MONASTERY_%2C_BULGARIA.jpg/1280px-BACHKOVO_MONASTERY_%2C_BULGARIA.jpg",
-  shipka: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Bulgaria_Bulgaria-0849_-_Shipka_Memorial_%287433104118%29.jpg/1280px-Bulgaria_Bulgaria-0849_-_Shipka_Memorial_%287433104118%29.jpg",
-  eiffel: unsplashDownload("PM4VZZn-YyM"),
-  sagradaFamilia: unsplashDownload("Aw-CUCbWR6A"),
-  charlesBridge: unsplashDownload("rMtnJqf_ZGU"),
-  montSaintMichel: unsplashDownload("rmTNrIcsmNs"),
+  shipka: unsplashImage("photo-1500530855697-b586d89ba3ee"),
+  eiffel: unsplashImage("photo-1523906834658-6e24ef2386f9"),
+  sagradaFamilia: unsplashImage("photo-1500673922987-e212871fec22"),
+  charlesBridge: unsplashImage("photo-1499856871958-5b9627545d1a"),
+  montSaintMichel: unsplashImage("photo-1502602898657-3e91760cbb34"),
   antelope: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/USA_Antelope-Canyon.jpg/1280px-USA_Antelope-Canyon.jpg",
   victoriaFalls: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/Victoria_Falls_%2814535387862%29.jpg/1280px-Victoria_Falls_%2814535387862%29.jpg",
 };
