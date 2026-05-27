@@ -8,7 +8,8 @@ function clientImagePayload(image) {
   return {
     ...plain,
     sourceUrl: plain.url,
-    url: `/stock-images/${plain.id}/file`,
+    proxyUrl: `/stock-images/${plain.id}/file`,
+    url: plain.url,
   };
 }
 
